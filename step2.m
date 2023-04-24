@@ -1,12 +1,15 @@
 clear; clc; close all;
 
-M = 2048;
-L = 1000;
+sigLen = 441000;
+shiftLen = 1024;
+winLen = 2048;
+frameLen = %frameLenを計算
 
 % 適切なサイズの0行列を用意します
-Spec = zeros(M/2+1,L); 
+% 床関数の追加
+Spec = zeros(winLen/2+1, frameLen); 
 
 % forループを用いてDFTmodoki(M)をL回実行，各実行結果をSpecの各列に代入します
-for i = 1:L
-    Spec(:,i) = DFTmodoki(M);
+for i = 1:frameLen
+    Spec(:,i) = DFTmodoki(winLen);
 end
