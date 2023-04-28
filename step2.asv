@@ -31,12 +31,9 @@ axis xy
 xticks(linspace(0,frameLen,3))
 xticklabels(linspace(0,10,3))
 xlim([0, frameLen])
-xlabel('時間[s]')
-f = 0:100:1000
+fontsize(gca, 20, "points")
+f = 0:3000:22000
 i = ((floor(winLen/2)+1)/(fs/2))*f + 1 
 yticks(i)
 yticklabels(f)
-ylim([0,((floor(winLen/2)+1)/(fs/2))*1000 + 1 ])
-ylabel('周波数[Hz]')
-clim([-60,20])
-fontsize(gca, 20, "points")
+
