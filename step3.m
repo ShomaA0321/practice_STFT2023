@@ -1,14 +1,16 @@
 clear; clc; close all;
 
-% 信号の生成(STEP1)
-f = 440;
-fs = 44100;
-time = 10;
-T = (0:1/fs:time-1/fs).';
-sigVec = sin(2*pi*f*T);
+% 信号の読み込み(STEP3)
+[sigVec fs] = audioread("kitamuravoice.wav");
+
+sigVec = (sigVec(:,1) + sigVec(:,2))/2;
+
 sigLen = length(sigVec);
+time = sigLen/fs;
 shiftLen = 1024;
 winLen = 2048;
+
+
 frameLen = ceil((sigLen-winLen)/shiftLen + 1);
 newSigLen = (frameLen - 1)*shiftLen + winLen;
 newSigVec = zeros(newSigLen, 1);
@@ -28,12 +30,17 @@ absSpec =  abs(Spec);
 absLogSpec = 20*log10(absSpec);
 imagesc(absLogSpec)
 axis xy
-xticks(linspace(0,frameLen,3))
-xticklabels(linspace(0,10,3))
+t = 0:time
+j = (frameLen/time)*t
+xticks(j)
+xticklabels(t)
 xlim([0, frameLen])
-fontsize(gca, 20, "points")
-f = 0:3000:22000
+xlabel('時間[s]')
+f = 0:500:4000
 i = ((floor(winLen/2)+1)/(fs/2))*f + 1 
 yticks(i)
 yticklabels(f)
-
+ylim([0,((floor(winLen/2)+1)/(fs/2))*4000 + 1 ])
+ylabel('周波数[Hz]')
+clim([-60,20])
+fontsize(gca, 20, "points")
